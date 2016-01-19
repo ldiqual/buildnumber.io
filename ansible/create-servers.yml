@@ -1,0 +1,50 @@
+---
+
+- hosts: webservers
+
+  remote_user: root
+
+  vars:
+    remote_user: root
+    www_user: www-data
+    www_group: www-data
+
+  tasks:
+
+    - name: install required binaries
+      apt: name={{ item }} state=present
+           update_cache=yes
+           cache_valid_time=86400 # 1 day
+      with_items:
+        - nginx
+        - git
+        - curl
+        - vim
+
+    - name: copy SSH key
+      copy: src=files/id_rsa dest=~/.ssh/id_rsa mode=600 owner={{ remote_user }}
+
+    - name: checkout Git repo
+      git: repo=git@github.com:ldiqual/buildnumber.io.git
+           dest=/var/www/buildnumber.io
+           depth=1
+           accept_hostkey=yes
+
+    - name: remove default nginx website
+      file: path=/etc/nginx/sites-enabled/default state=absent
+
+    - name: copy nginx configuration templates
+      template: src=templates/nginx.conf.j2 dest=/etc/nginx/sites-enabled/builnumber-io.conf
+                owner={{ www_user }} group={{ www_group }}
+
+    - name: checkout Let's Encrypt git repo
+      git: repo=https://github.com/letsencrypt/letsencrypt
+           dest=~/letsencrypt
+           depth=1
+           accept_hostkey=yes
+
+    - name: renew SSL certs
+      shell: ~/letsencrypt/letsencrypt-auto certonly --standalone --keep-until-expiring --email ops@buildnumber.io -d buildnumber.io -d api.buildnumber.io -d www.buildnumber.io
+
+    - name: start nginx
+      service: name=nginx state=restarted enabled=yes

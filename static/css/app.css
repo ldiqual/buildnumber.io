@@ -1,0 +1,215 @@
+body {
+    background: #011627;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 200;
+}
+
+input, button {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.orange {
+    color: #FF9F1C;
+}
+
+.blue {
+    color: #2EC4B6;
+}
+
+.container {
+    margin: 100px auto 0 auto;
+    width: 1024px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#logo-title {
+    height:60px;
+}
+
+#subtitle {
+    display: flex;
+    text-align:center;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#subtitle p {
+    margin-top: 30px;
+    width: 350px;
+    font-size: 25px;
+    text-align:center;
+}
+
+#signup {
+    margin-top:50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#email-field {
+    border-width: 0;
+    border-radius: 8px;
+    background-color: white;
+    color: #011627;
+    width: 350px;
+    font-size: 25px;
+    padding: 14px 20px;
+    outline: none;
+    font-weight:normal;
+}
+
+#email-field:disabled {
+    background:#E6E6E6;
+}
+
+#signup-button {
+    border: none;
+    border-radius: 8px;
+    background: #2EC4B6;
+    color: white;
+    font-size: 25px;
+    margin-left: 20px;
+    outline:none;
+    font-weight:normal;
+}
+
+#signup-button[data-loading] {
+    padding-right:60px;   
+}
+
+#signup-button[data-loading] .ladda-spinner {
+    right: 0;
+}
+
+
+#signup-button:active {
+    background:#209A8F;
+}
+
+#signup-result {
+    width:100%;
+}
+
+#signup-result .result {
+    border-radius:8px;
+    padding:20px 30px;
+    margin: 50px auto 0 auto;
+    font-size:20px;
+    text-align:center;
+    width:545px;
+    display:none;
+}
+
+#signup-result .result-error {
+    background: #E71D36;
+}
+
+#signup-result .result-success {
+    background: #2EC4B6;
+}
+
+#console {
+    margin-top:70px;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#console-container {
+    width: 900px;
+    height: 400px;
+    background: url(../img/console.png) no-repeat;
+    background-size: cover;
+    background-position: top center;
+}
+
+#console-content {
+    display:block;
+    width: 80%;
+    margin: 60px auto 0 auto;
+    line-height:30px;
+}
+
+#console-content * {
+    font-family: Hack, monospace;
+}
+
+.doc {
+    width: 80%;
+    margin: 100px auto 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.doc h1 {
+    text-align: center;
+    font-weight: normal;
+    width: 225px;
+    border-bottom: 1px solid #2EC4B6;
+    margin: 0 auto;
+    padding-bottom:20px;
+}
+
+.doc h2 {
+    font-weight: normal;
+    text-align: left;
+    margin-top:30px;
+}
+
+#whatisthis {
+    margin-top:50px;
+    text-align: center;
+}
+
+#diagram {
+    display:block;
+    margin: 70px auto 70px auto;
+}
+
+.doc p {
+    margin-top: 30px;
+    font-size: 20px;
+}
+
+.brand {
+    color: #FF9F1C;
+    font-family: Hack, monospace;
+}
+
+pre {
+    margin-top:20px;
+    text-align:left;
+    background: rgba(46, 196, 182, 0.2);
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom:40px;
+    font-size:15px;
+}
+
+code {
+    font-family: Hack, monospace;
+    line-height:25px;
+}
+
+#footer {
+    margin-top:50px;
+    margin-bottom:50px;
+    text-align:center;
+    font-size:20px;
+}
+
+#footer img {
+    vertical-align: middle;
+    margin-right:20px;
+    width:50px;
+}

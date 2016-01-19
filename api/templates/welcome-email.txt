@@ -1,0 +1,15 @@
+Welcome to buildnumber.io!
+--------------------------
+
+Your API token is {{ api_key }}.
+
+Request your first build number with the following code:
+
+```
+$ curl -X POST https://buildnumber.io/com.example.myapp/builds \ 
+    --user {{ api_key }}: 
+```
+
+To see more examples, please visit https://api.buildnumber.io/#examples?token={{ api_key }}.
+
+Need help? Just reply to this email.

@@ -1,34 +1,32 @@
 import os
 from os.path import join, dirname
 from dotenv import load_dotenv
+import dj_database_url
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-dotenv_path = join(dirname(__file__), '../..', '.env')
+dotenv_path = join(dirname(__file__), '../', '.env')
 load_dotenv(dotenv_path)
 
 MAILGUN_SECRET_API_KEY = os.environ.get("MAILGUN_SECRET_API_KEY")
 MAILGUN_DOMAIN = os.environ.get("MAILGUN_DOMAIN")
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'sc7wr=m5sbynxaob&_n-g6g*x3zv*1jv+@k2*o28hwqrxhvnj@'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'buildnumber-io.herokuapp.com',
+    'buildnumber.io',
+    'api.buildnumber.io'
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'django.contrib.contenttypes',
-    'django.contrib.staticfiles',
     'rest_framework',
     'api'
 ]
@@ -45,17 +43,28 @@ TEMPLATES = [
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
+            'context_processors': [],
         },
     },
 ]
 
 WSGI_APPLICATION = 'buildnumber.wsgi.application'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'ERROR'),
+        },
+    },
+}
 
 
 # Database
@@ -68,6 +77,11 @@ DATABASES = {
     }
 }
 
+if os.environ.get('HEROKU', False):
+    DATABASES['default'] = dj_database_url.config()
+    DATABASES['default']['CONN_MAX_AGE'] = 500
+
+
 REST_FRAMEWORK = {
     'UNAUTHENTICATED_USER': None,
     'DEFAULT_RENDERER_CLASSES': (
@@ -76,6 +90,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': (
         'djangorestframework_camel_case.parser.CamelCaseJSONParser',
     ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'api.auth.TokenAuthentication'
+    ],
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
     'TEST_REQUEST_RENDERER_CLASSES': (
         'djangorestframework_camel_case.render.CamelCaseJSONRenderer',

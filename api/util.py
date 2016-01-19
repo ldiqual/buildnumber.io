@@ -1,3 +1,6 @@
+import sys
+
+from django.template.loader import render_to_string
 from rest_framework import exceptions
 from buildnumber import settings
 from camel_snake_kebab import camelCase
@@ -21,13 +24,21 @@ def assert_valid_extra(extra, rawExtra):
 
 def send_welcome_email(account, account_email, api_key):
 
+    template_context = {
+        'title': "Welcome to buildnumber.io!",
+        'api_key': api_key.key
+    }
+    text_content = render_to_string('welcome-email.txt', template_context)
+    html_content = render_to_string('welcome-email-inlined.html', template_context)
+
     key = settings.MAILGUN_SECRET_API_KEY
     domain = settings.MAILGUN_DOMAIN
     data = {
         'from': 'Buildnumber.io <welcome@buildnumber.io>',
         'to': account_email.email,
-        'subject': 'Create a new build on Buildnumber.io',
-        'text': 'Your api token: %s' % (api_key.key,)
+        'subject': 'Your buildnumber.io API token',
+        'text': text_content,
+        'html': html_content
     }
     request = requests.post('https://api.mailgun.net/v3/%s/messages' % (domain,), data=data, auth=('api', key))
 

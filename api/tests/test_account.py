@@ -20,7 +20,7 @@ class BuildTests(APITestCase):
         self.api_key = api_key
 
     def test_create_account(self):
-        url = '/api/accounts'
+        url = '/accounts'
         response = self.client.post(url, {'email': 'me@example.com'})
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -30,7 +30,7 @@ class BuildTests(APITestCase):
         self.assertTrue(len(api_key.key) == 32)
 
     def test_ensure_creating_two_accounts_with_same_email_fails(self):
-        url = '/api/accounts'
+        url = '/accounts'
         response1 = self.client.post(url, {'email': 'me@example.com'})
         response2 = self.client.post(url, {'email': 'me@example.com'})
 

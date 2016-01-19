@@ -1,0 +1,55 @@
+# Web: Redirect http => https
+server {
+    listen 80;
+    server_name buildnumber.io;
+    return 301 https://www.buildnumber.io$request_uri;
+}
+
+# API: Redirect http => https
+server {
+    listen 80;
+    server_name api.buildnumber.io;
+    return 301 https://api.buildnumber.io$request_uri;
+}
+
+
+# Web: Redirect to www
+server {
+    listen 443 ssl;
+    server_name buildnumber.io;
+    ssl_certificate     /etc/letsencrypt/live/buildnumber.io/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/buildnumber.io/privkey.pem;
+
+    return 301 https://www.buildnumber.io$request_uri;
+}
+
+# API (proxy to heroku)
+server {
+    listen 443 ssl;
+    server_name api.buildnumber.io;
+    charset utf-8;
+    client_max_body_size 1M;
+
+    ssl_certificate     /etc/letsencrypt/live/buildnumber.io/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/buildnumber.io/privkey.pem;
+
+    location / {
+        proxy_pass https://buildnumber-io.herokuapp.com/;
+    }
+}
+
+# Web & Landing
+server {
+    listen 443 ssl;
+    server_name www.buildnumber.io;
+    charset utf-8;
+    client_max_body_size 1M;
+
+    ssl_certificate     /etc/letsencrypt/live/buildnumber.io/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/buildnumber.io/privkey.pem;
+
+    location / {
+        root /var/www/buildnumber.io/static;
+        index index.html;
+    }
+}

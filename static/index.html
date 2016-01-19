@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+
+    <!-- VENDOR -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Ladda/0.9.8/ladda.min.css">
+
+    <!-- CUSTOM -->
+    <link href="css/app.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div id="title">
+            <img src="img/logo-title.png" id="logo-title">
+        </div>
+        <div id="subtitle">
+            <p>
+                Centralized build numbers for your apps and libraries.
+            </p>
+        </div>
+        <div id="signup">
+            <form action="#" id="signup-form">
+                <input type="text" placeholder="Your email" id="email-field">
+                <button id="signup-button" class="ladda-button" data-style="expand-right"><span class="button-text ladda-label">Get API token</span></button>
+            </form>
+        </div>
+        <div id="signup-result">
+            <div class="result result-success">Success!</div>
+            <div class="result result-error">Error!</div>
+        </div>
+        <div id="console">
+            <div id="console-container">
+                <div id="console-content">
+                    <p>
+                    $ <span class="blue">curl -X POST</span> <span class="orange">https://api.buildnumber.io/com.example.myapp/builds</span> \ <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="blue">--user</span> <span class="orange">b6a79b983243511aeddde5121e3ce41b: </span>
+                    </p>
+                    <p>&nbsp;</p>
+                    <p>{“buildNumber":42}</p>
+                </div>
+            </div>
+        </div>
+        <div class="doc" id="whatisthis">
+            <h1>What is this?</h1>
+
+            <img id="diagram" src="img/diagram.png">
+
+            <p><span class="brand">buildnumber.io</span> centralizes all your build numbers so they're kept in sync.</p>
+
+            <p>For instance, if you use Travis to build your iOS app but also build from your own computer, you’ll need to make sure Travis doesn't use the same build number than your computer's. You'll also need to make sure each build number is unique and incremental.</p>
+
+            <p>This is where <span class="brand">buildnumber.io</span> is helpful: by centralizing all your build numbers into one single database, we can give you a new, unique, and sequential build number to use in your next build.</p>
+        </div>
+
+        <div class="doc" id="examples">
+            <h1>Examples</h1>
+
+            <h2>Create a new build</h2>
+
+            <p>This will create a new build for the <code>org.example.myapp</code> package. If you never created a build for this package before, the initial build number will be <code>1</code>.</p>
+
+            <pre><code>$ curl -X POST https://api.buildnumber.io/com.example.myapp/builds \ 
+    --user b6a79b983243511aeddde5121e3ce41b:  
+
+{“buildNumber":42}</code></pre>
+
+            <h2>Create a new build and return its build number in plain text</h2>
+
+            <p>This is useful for bash scripts, since you can just store the request output in a variable.</p>
+
+            <pre><code>$ curl -X POST https://api.buildnumber.io/com.example.myapp/builds?output=buildNumber \ 
+    --user b6a79b983243511aeddde5121e3ce41b:  
+
+43</code></pre>
+
+            <h2>Create a new build with additional information</h2>
+
+            <p>You can pass a JSON-encoded meta data dictionary for your build. You can retrieve this data later when querying a specific build.</p>
+
+            <pre><code>$ curl -X POST \
+    https://api.buildnumber.io/com.example.myapp/builds?output=buildNumber \ 
+    --user b6a79b983243511aeddde5121e3ce41b:  \
+    --data '{"head": "60b7eca"}' \
+    --header 'Content-Type: application/json'
+
+{"buildNumber": 44, "head": "60b7eca"}</code></pre>
+
+            <h2>Get the last build</h2>
+
+            <pre><code>$ curl https://api.buildnumber.io/com.example.myapp/builds/lastBuild \ 
+    --user b6a79b983243511aeddde5121e3ce41b:  
+
+{"buildNumber": 44, "head": "60b7eca"}</code></pre>
+
+            <h2>Get a specific build by its build number</h2>
+
+            <pre><code>$ curl https://api.buildnumber.io/com.example.myapp/builds/43 \ 
+    --user b6a79b983243511aeddde5121e3ce41b:  
+
+{"buildNumber": 43}</code></pre>
+        </div>
+
+        <div id="footer">
+            <p><img src="img/ldiqual.png">Brought to you by Loïs Di Qual - Copyright 2015 buildnumber.io</p>
+        </div>
+    </div>
+
+    <!-- VENDOR -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/0.9.8/spin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/0.9.8/ladda.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/0.9.8/ladda.jquery.min.js"></script>
+
+    <!-- CUSTOM -->
+    <script src="js/app.js"></script>
+</body>
+</html>

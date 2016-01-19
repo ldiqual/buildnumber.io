@@ -1,10 +1,12 @@
+import sys
+
 from django.http import Http404, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import exceptions
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes
 
 from serializers import *
 from models import *
@@ -13,19 +15,8 @@ from util import assert_valid_extra, send_welcome_email
 @api_view(http_method_names=['GET'])
 def get_last_build(request, package_name):
 
-    key = request.GET.get('token', None)
-
-    # Make sure an API key is provided
-    if not key:
-        raise exceptions.NotAuthenticated("You must provide `?token=API_TOKEN` to use this service. Please check your emails to get this token.")
-
-    # Grab the API key model, make sure it exists
-    try:
-        api_key = ApiKey.objects.get(key=key)
-    except ApiKey.DoesNotExist:
-        raise exceptions.AuthenticationFailed("This API token doesn't exist")
-
-    package = get_object_or_404(Package, name=package_name)
+    account = request.user
+    package = get_object_or_404(Package, name=package_name, account=account)
     last_build = package.builds.order_by('-build_number').first()
 
     if not last_build:
@@ -41,6 +32,7 @@ def get_last_build(request, package_name):
 @api_view(http_method_names=['POST'])
 def create_build(request, package_name, format=None):
 
+    account = request.user
     body = request.body
     key = request.GET.get('token', None)
     output = request.GET.get('output', 'json')
@@ -52,21 +44,11 @@ def create_build(request, package_name, format=None):
 
     assert_valid_extra(extra, body)
 
-    # Make sure an API key is provided
-    if not key:
-        raise exceptions.NotAuthenticated("You must provide `?token=API_TOKEN` to use this service. Please check your emails to get this token.")
-
-    # Grab the API key model, make sure it exists
-    try:
-        api_key = ApiKey.objects.get(key=key)
-    except ApiKey.DoesNotExist:
-        raise exceptions.AuthenticationFailed("This API token doesn't exist")
-
     # Grab the corresponding package, create it if it doesn't exist
     try:
-        package = Package.objects.get(name=package_name, account=api_key.account)
+        package = Package.objects.get(name=package_name, account=account)
     except Package.DoesNotExist:
-        package = Package(name=package_name, account=api_key.account)
+        package = Package(name=package_name, account=account)
         package.save()
 
     # Get the last build to infer the new build number from
@@ -80,7 +62,6 @@ def create_build(request, package_name, format=None):
 
     if output == 'buildNumber':
         response = Response(new_build.build_number, content_type='plain/text')
-        #response['Content-Type'] = 'plain/text'
         return response
 
     # Serialize the new build
@@ -93,19 +74,8 @@ def create_build(request, package_name, format=None):
 @api_view(http_method_names=['GET'])
 def get_build(request, package_name, build_number, format=None):
 
-    key = request.GET.get('token', None)
-
-    # Make sure an API key is provided
-    if not key:
-        raise exceptions.NotAuthenticated("You must provide `?token=API_TOKEN` to use this service. Please check your emails to get this token.")
-
-    # Grab the API key model, make sure it exists
-    try:
-        api_key = ApiKey.objects.get(key=key)
-    except ApiKey.DoesNotExist:
-        raise exceptions.AuthenticationFailed("This API token doesn't exist")
-
-    package = get_object_or_404(Package, name=package_name)
+    account = request.user
+    package = get_object_or_404(Package, name=package_name, account=account)
 
     try:
         last_build = package.builds.get(build_number=build_number)
@@ -119,35 +89,38 @@ def get_build(request, package_name, build_number, format=None):
 
     return Response(response_data)
 
-class AccountView(APIView):
 
-    def post(self, request, format=None):
+@api_view(http_method_names=['POST'])
+@authentication_classes([])
+def create_account(request, format=None):
 
-        serializer = AccountSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+    serializer = AccountSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
 
-        email = serializer.validated_data.get('email')
+    email = serializer.validated_data.get('email')
 
-        # Make sure no account exists with this email
-        try:
-            account = AccountEmail.objects.get(email=email)
-            return Response({'error': "An account with the same email already exists. Please check your inbox to get your API token."}, status=status.HTTP_409_CONFLICT)
-        except AccountEmail.DoesNotExist:
-            pass
+    # Make sure no account exists with this email
+    try:
+        account = AccountEmail.objects.get(email=email)
+        return Response({'error': "An account with the same email already exists. Please check your inbox to get your API token."}, status=status.HTTP_409_CONFLICT)
+    except AccountEmail.DoesNotExist:
+        pass
 
-        # Create a new account
-        account = Account()
-        account.save()
+    # Create a new account
+    account = Account()
+    account.save()
 
-        # Create a new email
-        account_email = AccountEmail(account=account)
-        account_email.email = email
-        account_email.save()
+    # Create a new email
+    account_email = AccountEmail(account=account)
+    account_email.email = email
+    account_email.save()
 
-        # Create a new API Key
-        api_key = ApiKey(account=account)
-        api_key.save()
+    # Create a new API Key
+    api_key = ApiKey(account=account)
+    api_key.save()
 
+    is_testing = 'test' in sys.argv
+    if not is_testing:
         send_welcome_email(account, account_email, api_key)
 
-        return Response({}, status=status.HTTP_201_CREATED)
+    return Response({}, status=status.HTTP_201_CREATED)
