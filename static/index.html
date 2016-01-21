@@ -10,7 +10,6 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Ladda/0.9.8/ladda.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/solarized_dark.min.css">
 
     <!-- CUSTOM -->
     <link href="css/app.css" rel="stylesheet">
@@ -74,7 +73,8 @@
 
             <p>This is useful for bash scripts, since you can just store the request output in a variable.</p>
 
-            <pre><code class="bash">$ curl -X POST https://api.buildnumber.io/com.example.myapp/builds?output=buildNumber \
+            <pre><code class="bash">$ curl -X POST
+    https://api.buildnumber.io/com.example.myapp/builds?output=buildNumber \
     --user <span class="api-key">API_TOKEN</span>:</code>
                 <code class="json">43</code></pre>
 
@@ -82,8 +82,7 @@
 
             <p>You can pass a JSON-encoded meta data dictionary for your build. You can retrieve this data later when querying a specific build.</p>
 
-            <pre><code class="bash">$ curl -X POST \
-    https://api.buildnumber.io/com.example.myapp/builds?output=buildNumber \
+            <pre><code class="bash">$ curl -X POST https://api.buildnumber.io/com.example.myapp/builds \
     --user <span class="api-key">API_TOKEN</span>: \
     --data '{"head": "60b7eca"}' \
     --header 'Content-Type: application/json'</code>
@@ -113,9 +112,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/0.9.8/spin.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/0.9.8/ladda.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/0.9.8/ladda.jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/languages/bash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/languages/json.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-url-parser/2.3.1/purl.min.js"></script>
 
     <!-- CUSTOM -->

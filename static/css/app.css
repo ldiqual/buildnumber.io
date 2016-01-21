@@ -214,8 +214,6 @@ code {
     width:50px;
 }
 
-.hljs {
-    background: none;
-    overflow: hidden;
-    padding: 0;
+pre code {
+    display:block;
 }

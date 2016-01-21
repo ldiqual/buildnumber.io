@@ -4,7 +4,6 @@ $().ready( function(){
 
     var token = $.url().param('token') || "6f2ee720c648ba30e36c43a5da8b95ac"
     $('.api-key').text(token)
-    hljs.initHighlightingOnLoad()
 
     var $emailField = $('#email-field')
     var $signupButton = $('#signup-button')
