@@ -1,10 +1,10 @@
 BuildNumber.io
---------------
+==============
 
 Centralized build numbers for your apps and libraries. <https://www.buildnumber.io/>
 
 Usage
-=====
+-----
 
 Base URL is `https://api.buildnumber.io`. Append `?token=<API_TOKEN>` to all your requests, or use a basic HTTP authentication with `user=API_TOKEN`, and an empty password.
 
@@ -51,7 +51,7 @@ GET /com.example.app/builds/245
 ```
 
 Deployment
-==========
+----------
 
 Make sure your public key is on the `buildnumber.io` instance, then:
 
