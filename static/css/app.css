@@ -9,6 +9,10 @@ input, button {
     font-family: 'Open Sans', sans-serif;
 }
 
+a {
+    color: white;
+}
+
 .orange {
     color: #FF9F1C;
 }

@@ -17,6 +17,13 @@ $().ready( function(){
         ev.preventDefault()
         var email = $emailField.val()
 
+        var regex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+        if (!regex.test(email)) {
+            $errorContainer.text("Please enter a valid email address")
+            $errorContainer.slideDown(300)
+            return
+        }
+
         $emailField.prop('disabled', true)
         $signupButton.ladda('start')
         $errorContainer.slideUp(300)

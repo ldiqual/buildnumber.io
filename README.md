@@ -1,12 +1,14 @@
 BuildNumber.io
 --------------
 
-BuildNumber.io generates unique build numbers for you.
+Centralized build numbers for your apps and libraries. <https://www.buildnumber.io/>
 
 Usage
 =====
 
-Base URL is `https://buildnumber.io`. Append `?token=<YOUR_TOKEN>` to all your requests. If you don't have a token yet, you can request one here [ HERE ]
+Base URL is `https://api.buildnumber.io`. Append `?token=<API_TOKEN>` to all your requests, or use a basic HTTP authentication with `user=API_TOKEN`, and an empty password.
+
+If you don't have a token yet, you can get one on <https://www.buildnumber.io/>.
 
 ### Create a new build
 
@@ -46,13 +48,4 @@ GET /com.example.app/builds/last
 ```
 GET /com.example.app/builds/245
  <= {"buildNumber": 245, "head": "60b7eca"}
-```
-
-Examples
---------
-
-### Bash
-
-```
-BUILD_NUMBER=$(curl --data '' https://buildnumber.io/com.example.app/newBuildNumber?format=simple&token=ABCDEFGH)
 ```
