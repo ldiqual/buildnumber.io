@@ -10,6 +10,7 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Ladda/0.9.8/ladda.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/solarized_dark.min.css">
 
     <!-- CUSTOM -->
     <link href="css/app.css" rel="stylesheet">
@@ -38,8 +39,8 @@
             <div id="console-container">
                 <div id="console-content">
                     <p>
-                    $ <span class="blue">curl -X POST</span> <span class="orange">https://api.buildnumber.io/com.example.myapp/builds</span> \ <br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="blue">--user</span> <span class="orange">b6a79b983243511aeddde5121e3ce41b: </span>
+                    $ <span class="blue">curl -X POST</span> <span class="orange">https://api.buildnumber.io/com.example.myapp/builds</span> \<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="blue">--user</span> <span class="orange"><span class="api-key">API_TOKEN</span>:</span>
                     </p>
                     <p>&nbsp;</p>
                     <p>{“buildNumber":42}</p>
@@ -65,45 +66,40 @@
 
             <p>This will create a new build for the <code>org.example.myapp</code> package. If you never created a build for this package before, the initial build number will be <code>1</code>.</p>
 
-            <pre><code>$ curl -X POST https://api.buildnumber.io/com.example.myapp/builds \ 
-    --user b6a79b983243511aeddde5121e3ce41b:  
-
-{“buildNumber":42}</code></pre>
+            <pre><code class="bash">$ curl -X POST https://api.buildnumber.io/com.example.myapp/builds \
+    --user <span class="api-key">API_TOKEN</span>:</code>
+                <code class="json">{“buildNumber":42}</code></pre>
 
             <h2>Create a new build and return its build number in plain text</h2>
 
             <p>This is useful for bash scripts, since you can just store the request output in a variable.</p>
 
-            <pre><code>$ curl -X POST https://api.buildnumber.io/com.example.myapp/builds?output=buildNumber \ 
-    --user b6a79b983243511aeddde5121e3ce41b:  
-
-43</code></pre>
+            <pre><code class="bash">$ curl -X POST https://api.buildnumber.io/com.example.myapp/builds?output=buildNumber \
+    --user <span class="api-key">API_TOKEN</span>:</code>
+                <code class="json">43</code></pre>
 
             <h2>Create a new build with additional information</h2>
 
             <p>You can pass a JSON-encoded meta data dictionary for your build. You can retrieve this data later when querying a specific build.</p>
 
-            <pre><code>$ curl -X POST \
-    https://api.buildnumber.io/com.example.myapp/builds?output=buildNumber \ 
-    --user b6a79b983243511aeddde5121e3ce41b:  \
+            <pre><code class="bash">$ curl -X POST \
+    https://api.buildnumber.io/com.example.myapp/builds?output=buildNumber \
+    --user <span class="api-key">API_TOKEN</span>: \
     --data '{"head": "60b7eca"}' \
-    --header 'Content-Type: application/json'
-
-{"buildNumber": 44, "head": "60b7eca"}</code></pre>
+    --header 'Content-Type: application/json'</code>
+                <code class="json">{"buildNumber": 44, "head": "60b7eca"}</code></pre>
 
             <h2>Get the last build</h2>
 
-            <pre><code>$ curl https://api.buildnumber.io/com.example.myapp/builds/lastBuild \ 
-    --user b6a79b983243511aeddde5121e3ce41b:  
-
-{"buildNumber": 44, "head": "60b7eca"}</code></pre>
+            <pre><code class="bash">$ curl https://api.buildnumber.io/com.example.myapp/builds/lastBuild \
+    --user <span class="api-key">API_TOKEN</span>:</code>
+                <code class="json">{"buildNumber": 44, "head": "60b7eca"}</code></pre>
 
             <h2>Get a specific build by its build number</h2>
 
-            <pre><code>$ curl https://api.buildnumber.io/com.example.myapp/builds/43 \ 
-    --user b6a79b983243511aeddde5121e3ce41b:  
-
-{"buildNumber": 43}</code></pre>
+            <pre><code class="bash">curl https://api.buildnumber.io/com.example.myapp/builds/43 \
+    --user <span class="api-key">API_TOKEN</span>:</code>
+                <code class="json">{"buildNumber": 43}</code></pre>
         </div>
 
         <div id="footer">
@@ -117,6 +113,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/0.9.8/spin.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/0.9.8/ladda.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/0.9.8/ladda.jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/languages/json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-url-parser/2.3.1/purl.min.js"></script>
 
     <!-- CUSTOM -->
     <script src="js/app.js"></script>

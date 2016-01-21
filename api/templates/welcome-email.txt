@@ -6,10 +6,10 @@ Your API token is {{ api_key }}.
 Request your first build number with the following code:
 
 ```
-$ curl -X POST https://buildnumber.io/com.example.myapp/builds \ 
-    --user {{ api_key }}: 
+$ curl -X POST https://buildnumber.io/com.example.myapp/builds \
+    --user {{ api_key }}:
 ```
 
-To see more examples, please visit https://api.buildnumber.io/#examples?token={{ api_key }}.
+To see more examples, please visit https://api.buildnumber.io/?token={{ api_key }}#examples.
 
 Need help? Just reply to this email.
