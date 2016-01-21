@@ -19,15 +19,18 @@ $().ready( function(){
         $errorContainer.slideUp(300)
         $successContainer.slideUp(300)
 
-        $.post(API_URL + '/accounts', {
-            email: email
+        $.post({
+            url: API_URL + '/accounts',
+            contentType: 'application/json',
+            data: JSON.stringify({ email: email })
         }).success(function(data) {
             var msg = "Your API token has been sent to " + email + ".<br>" +
                 "Check your emails!"
             $successContainer.html(msg)
             $successContainer.slideDown(300)
         }).error(function(err) {
-            $errorContainer.text(err)
+            var errorText = _.get(err, 'responseJSON.error', 'Something went wrong, please try again!')
+            $errorContainer.text(errorText)
             $errorContainer.slideDown(300)
         }).always(function() {
             $emailField.prop('disabled', false)

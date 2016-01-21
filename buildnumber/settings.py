@@ -22,6 +22,18 @@ ALLOWED_HOSTS = [
     'api.buildnumber.io'
 ]
 
+CORS_ORIGIN_WHITELIST = [
+    'www.buildnumber.io',
+    'buildnumber.io'
+]
+
+if DEBUG:
+    CORS_ORIGIN_WHITELIST += [
+        '127.0.0.1:8080',
+        '127.0.0.1:8000',
+    ]
+
+print CORS_ORIGIN_WHITELIST
 
 # Application definition
 
@@ -32,6 +44,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE_CLASSES = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
 
