@@ -52,4 +52,8 @@ server {
         root /var/www/buildnumber.io/static;
         index index.html;
     }
+
+    location /nginx-status {
+        stub_status on;
+    }
 }

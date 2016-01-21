@@ -49,3 +49,14 @@ GET /com.example.app/builds/last
 GET /com.example.app/builds/245
  <= {"buildNumber": 245, "head": "60b7eca"}
 ```
+
+Deployment
+==========
+
+Make sure your public key is on the `buildnumber.io` instance, then:
+
+```
+$ brew install ansible
+$ ansible-galaxy install Datadog.datadog
+$ ansible-playbook -i hosts create-servers.yml
+```

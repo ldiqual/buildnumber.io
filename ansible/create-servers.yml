@@ -4,12 +4,41 @@
 
   remote_user: root
 
+  vars_files:
+    - secure/keys.yml
+
   vars:
     remote_user: root
     www_user: www-data
     www_group: www-data
+    datadog_checks:
+      nginx:
+        instances:
+          - nginx_status_url: https://www.buildnumber.io/nginx-status
+
+  roles:
+    - { role: Datadog.datadog, datadog_api_key: "{{ datadog_key }}" }
+
+  handlers:
+    - name: Restart ssh
+      service: name=ssh state=restarted
 
   tasks:
+
+    - ufw: state=enabled logging=on
+    - ufw: direction=incoming policy=deny
+    - ufw: rule=limit port=ssh proto=tcp
+    - ufw: rule=allow port=22 proto=tcp
+    - ufw: rule=allow port=17123 proto=tcp
+    - ufw: rule=allow port=80 proto=tcp
+    - ufw: rule=allow port=443 proto=tcp
+
+    - name: Disallow password authentication
+      lineinfile: dest=/etc/ssh/sshd_config
+                  regexp="^PasswordAuthentication"
+                  line="PasswordAuthentication no"
+                  state=present
+      notify: Restart ssh
 
     - name: install required binaries
       apt: name={{ item }} state=present
@@ -22,7 +51,7 @@
         - vim
 
     - name: copy SSH key
-      copy: src=files/id_rsa dest=~/.ssh/id_rsa mode=600 owner={{ remote_user }}
+      copy: src=secure/id_rsa dest=~/.ssh/id_rsa mode=600 owner={{ remote_user }}
 
     - name: checkout Git repo
       git: repo=git@github.com:ldiqual/buildnumber.io.git
