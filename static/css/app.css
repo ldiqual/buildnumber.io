@@ -24,15 +24,14 @@ a {
 .container {
     margin: 100px auto 0 auto;
     width: 1024px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+}
+
+.row {
+    width: 100%;
 }
 
 #title {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+    text-align:center;
 }
 
 #logo-title {
@@ -40,10 +39,7 @@ a {
 }
 
 #subtitle {
-    display: flex;
     text-align:center;
-    flex-direction: row;
-    justify-content: center;
 }
 
 #subtitle p {
@@ -51,13 +47,12 @@ a {
     width: 350px;
     font-size: 25px;
     text-align:center;
+    margin: 30px auto 0 auto;
 }
 
 #signup {
     margin-top:50px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+    text-align:center;
 }
 
 #email-field {
@@ -124,12 +119,10 @@ a {
 
 #console {
     margin-top:70px;
-    display:flex;
-    flex-direction: row;
-    justify-content: center;
 }
 
 #console-container {
+    margin: 0 auto;
     width: 900px;
     height: 400px;
     background: url(../img/console.png) no-repeat;
@@ -140,8 +133,9 @@ a {
 #console-content {
     display:block;
     width: 80%;
-    margin: 60px auto 0 auto;
+    margin: 0 auto 0 auto;
     line-height:30px;
+    padding-top:60px;
 }
 
 #console-content * {
@@ -151,8 +145,6 @@ a {
 .doc {
     width: 80%;
     margin: 100px auto 0 auto;
-    display: flex;
-    flex-direction: column;
 }
 
 .doc h1 {
@@ -167,7 +159,7 @@ a {
 .doc h2 {
     font-weight: normal;
     text-align: left;
-    margin-top:30px;
+    margin-top:50px;
 }
 
 #whatisthis {
@@ -181,7 +173,7 @@ a {
 }
 
 .doc p {
-    margin-top: 30px;
+    margin-top: 40px;
     font-size: 20px;
 }
 
@@ -191,12 +183,12 @@ a {
 }
 
 pre {
-    margin-top:20px;
+    margin-top:30px;
     text-align:left;
     background: rgba(46, 196, 182, 0.2);
     padding: 30px;
     border-radius: 8px;
-    margin-bottom:40px;
+    margin-bottom:80px;
     font-size:15px;
 }
 
