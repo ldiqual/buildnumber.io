@@ -1,0 +1,50 @@
+{
+    "baseUrl": "https://api.buildnumber.io",
+    "endpoints": [{
+        "title": "Create a new build",
+        "details": "This will create a new build for the `com.example.myapp` package. If you never created a build for this package before, the initial build number will be `1`.",
+        "method": "POST",
+        "path": "/com.example.myapp/builds",
+        "auth": true,
+        "response": {
+            "buildNumber": 42
+        }    
+    }, {
+        "title": "Create a new build and return its build number in plain text",
+        "details": "This is useful for bash scripts, since you can just store the request output in a variable.",
+        "method": "POST",
+        "path": "/com.example.myapp/builds?output=buildNumber",
+        "auth": true,
+        "response": "43"
+    }, {
+        "title": "Create a new build with additional information",
+        "details": "You can pass a JSON-encoded meta data dictionary for your build. You can retrieve this data later when querying a specific build.",
+        "method": "POST",
+        "path": "/com.example.myapp/builds",
+        "auth": true,
+        "data": {
+            "head": "60b7eca"
+        },
+        "response": {
+            "buildNumber": 44,
+            "head": "60b7eca"
+        }
+    }, {
+        "title": "Get the last build",
+        "method": "GET",
+        "path": "/com.example.myapp/builds/last",
+        "auth": true,
+        "response": {
+            "buildNumber": 44,
+            "head": "60b7eca"
+        }
+    }, {
+        "title": "Get a specific build by its build number",
+        "method": "GET",
+        "path": "/com.example.myapp/builds/43",
+        "auth": true,
+        "response": {
+            "buildNumber": 43
+        }
+    }]
+}

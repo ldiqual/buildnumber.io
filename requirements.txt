@@ -1,4 +1,7 @@
 Django==1.9.1
+Jinja2==2.8
+Markdown==2.6.5
+MarkupSafe==0.23
 camel-snake-kebab==0.3.2
 click==6.2
 dj-database-url==0.3.0

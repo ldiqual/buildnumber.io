@@ -61,55 +61,19 @@
         <div class="doc row" id="examples">
             <h1>Examples</h1>
 
-            
-            <h2>Create a new build</h2>
+            {% for endpoint in endpoints %}
+            <h2>{{ endpoint.title }}</h2>
 
-            
-            <p><p>This will create a new build for the <code>com.example.myapp</code> package. If you never created a build for this package before, the initial build number will be <code>1</code>.</p></p>
-            
+            {% if endpoint.details %}
+            <p>{{ endpoint.details | markdown }}</p>
+            {% endif %}
 
-            <pre><code>$ curl -X POST https://api.buildnumber.io/com.example.myapp/builds
-    --user <span class="api-key">API_TOKEN</span>:</code>
-    <code>{"buildNumber": 42}</code></pre>
-            
-            <h2>Create a new build and return its build number in plain text</h2>
-
-            
-            <p><p>This is useful for bash scripts, since you can just store the request output in a variable.</p></p>
-            
-
-            <pre><code>$ curl -X POST https://api.buildnumber.io/com.example.myapp/builds?output=buildNumber
-    --user <span class="api-key">API_TOKEN</span>:</code>
-    <code>43</code></pre>
-            
-            <h2>Create a new build with additional information</h2>
-
-            
-            <p><p>You can pass a JSON-encoded meta data dictionary for your build. You can retrieve this data later when querying a specific build.</p></p>
-            
-
-            <pre><code>$ curl -X POST https://api.buildnumber.io/com.example.myapp/builds
+            <pre><code>$ curl{% if endpoint.method != 'GET' %} -X {{ endpoint.method }}{% endif %} {{ baseUrl }}{{ endpoint.path }}{% if endpoint.data %}
     --header 'Content-Type: application/json'
-    --data '{"head": "60b7eca"}'
-    --user <span class="api-key">API_TOKEN</span>:</code>
-    <code>{"buildNumber": 44, "head": "60b7eca"}</code></pre>
-            
-            <h2>Get the last build</h2>
-
-            
-
-            <pre><code>$ curl https://api.buildnumber.io/com.example.myapp/builds/last
-    --user <span class="api-key">API_TOKEN</span>:</code>
-    <code>{"buildNumber": 44, "head": "60b7eca"}</code></pre>
-            
-            <h2>Get a specific build by its build number</h2>
-
-            
-
-            <pre><code>$ curl https://api.buildnumber.io/com.example.myapp/builds/43
-    --user <span class="api-key">API_TOKEN</span>:</code>
-    <code>{"buildNumber": 43}</code></pre>
-            
+    --data '{{ endpoint.data | jsonstring }}'{% endif %}{% if endpoint.auth %}
+    --user <span class="api-key">API_TOKEN</span>:{% endif %}</code>
+    <code>{{ endpoint.response | responsestring }}</code></pre>
+            {% endfor %}
         </div>
 
         <div id="footer">
