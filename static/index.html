@@ -68,7 +68,7 @@
             <p><p>This will create a new build for the <code>com.example.myapp</code> package. If you never created a build for this package before, the initial build number will be <code>1</code>.</p></p>
             
 
-            <pre><code>$ curl -X POST https://api.buildnumber.io/com.example.myapp/builds
+            <pre><code>$ curl -X POST https://api.buildnumber.io/com.example.myapp/builds \
     --user <span class="api-key">API_TOKEN</span>:</code>
     <code>{"buildNumber": 42}</code></pre>
             
@@ -78,7 +78,7 @@
             <p><p>This is useful for bash scripts, since you can just store the request output in a variable.</p></p>
             
 
-            <pre><code>$ curl -X POST https://api.buildnumber.io/com.example.myapp/builds?output=buildNumber
+            <pre><code>$ curl -X POST https://api.buildnumber.io/com.example.myapp/builds?output=buildNumber \
     --user <span class="api-key">API_TOKEN</span>:</code>
     <code>43</code></pre>
             
@@ -88,9 +88,9 @@
             <p><p>You can pass a JSON-encoded meta data dictionary for your build. You can retrieve this data later when querying a specific build.</p></p>
             
 
-            <pre><code>$ curl -X POST https://api.buildnumber.io/com.example.myapp/builds
-    --header 'Content-Type: application/json'
-    --data '{"head": "60b7eca"}'
+            <pre><code>$ curl -X POST https://api.buildnumber.io/com.example.myapp/builds \
+    --header 'Content-Type: application/json' \
+    --data '{"head": "60b7eca"}' \
     --user <span class="api-key">API_TOKEN</span>:</code>
     <code>{"buildNumber": 44, "head": "60b7eca"}</code></pre>
             
@@ -98,7 +98,7 @@
 
             
 
-            <pre><code>$ curl https://api.buildnumber.io/com.example.myapp/builds/last
+            <pre><code>$ curl https://api.buildnumber.io/com.example.myapp/builds/last \
     --user <span class="api-key">API_TOKEN</span>:</code>
     <code>{"buildNumber": 44, "head": "60b7eca"}</code></pre>
             
@@ -106,7 +106,7 @@
 
             
 
-            <pre><code>$ curl https://api.buildnumber.io/com.example.myapp/builds/43
+            <pre><code>$ curl https://api.buildnumber.io/com.example.myapp/builds/43 \
     --user <span class="api-key">API_TOKEN</span>:</code>
     <code>{"buildNumber": 43}</code></pre>
             

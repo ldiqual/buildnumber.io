@@ -68,9 +68,9 @@
             <p>{{ endpoint.details | markdown }}</p>
             {% endif %}
 
-            <pre><code>$ curl{% if endpoint.method != 'GET' %} -X {{ endpoint.method }}{% endif %} {{ baseUrl }}{{ endpoint.path }}{% if endpoint.data %}
-    --header 'Content-Type: application/json'
-    --data '{{ endpoint.data | jsonstring }}'{% endif %}{% if endpoint.auth %}
+            <pre><code>$ curl{% if endpoint.method != 'GET' %} -X {{ endpoint.method }}{% endif %} {{ baseUrl }}{{ endpoint.path }} \{% if endpoint.data %}
+    --header 'Content-Type: application/json' \
+    --data '{{ endpoint.data | jsonstring }}' \{% endif %}{% if endpoint.auth %}
     --user <span class="api-key">API_TOKEN</span>:{% endif %}</code>
     <code>{{ endpoint.response | responsestring }}</code></pre>
             {% endfor %}
