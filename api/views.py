@@ -13,11 +13,11 @@ from models import *
 from util import assert_valid_extra, send_welcome_email
 
 @api_view(http_method_names=['GET'])
-def get_last_build(request, package_name):
+def get_last_build(request, package_name, version=None):
 
     account = request.user
     package = get_object_or_404(Package, name=package_name, account=account)
-    last_build = package.builds.order_by('-build_number').first()
+    last_build = package.builds.filter(version=version).order_by('-build_number').first()
 
     if not last_build:
         raise exceptions.NotFound("Couldn't find a build for this package name")
@@ -30,7 +30,7 @@ def get_last_build(request, package_name):
     return Response(response_data)
 
 @api_view(http_method_names=['POST'])
-def create_build(request, package_name, format=None):
+def create_build(request, package_name, version=None, format=None):
 
     account = request.user
     body = request.body
@@ -52,11 +52,11 @@ def create_build(request, package_name, format=None):
         package.save()
 
     # Get the last build to infer the new build number from
-    last_build = package.builds.order_by('-build_number').first()
+    last_build = package.builds.filter(version=version).order_by('-build_number').first()
 
     # Create a new build
     new_build_number = last_build.build_number + 1 if last_build else 1
-    new_build = Build(package = package, build_number=new_build_number)
+    new_build = Build(package = package, build_number=new_build_number, version=version)
     new_build.extra = extra
     new_build.save()
 
@@ -72,13 +72,13 @@ def create_build(request, package_name, format=None):
     return Response(response_data, status=status.HTTP_201_CREATED)
 
 @api_view(http_method_names=['GET'])
-def get_build(request, package_name, build_number, format=None):
+def get_build(request, package_name, build_number, version=None, format=None):
 
     account = request.user
     package = get_object_or_404(Package, name=package_name, account=account)
 
     try:
-        last_build = package.builds.get(build_number=build_number)
+        last_build = package.builds.filter(version=version).get(build_number=build_number)
     except Build.DoesNotExist:
         raise exceptions.NotFound("Couldn't find a build for this package name")
 

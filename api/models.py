@@ -32,8 +32,9 @@ class Package(models.Model):
 class Build(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     package = models.ForeignKey(Package, related_name="builds")
+    version = models.CharField(max_length=255, blank=True, null=True)
     build_number = models.PositiveIntegerField()
     extra = JSONField(max_length=1024)
 
     class Meta:
-        unique_together = ('package', 'build_number')
+        unique_together = ('package', 'build_number', 'version')

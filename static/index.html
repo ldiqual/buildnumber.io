@@ -110,6 +110,17 @@
     --user <span class="api-key">API_TOKEN</span>:</code>
     <code>{"buildNumber": 43}</code></pre>
             
+            <h2>Get a unique build number for a specific package version</h2>
+
+            
+            <p><p>Instead of generating a new build number that is unique for all builds, you can request a build number for a specific package version. For instance, you can request a build number for v1.0 of your package as follows.</p>
+<p>All the previous examples are valid with this pattern, you can create a build, get a specific build, get the last build, add extra parameters, just like you would do without a version. Both patterns can also be used altogether: you can request a build number specific to a version <em>and</em> you can request a build number that is unique to non-versionned packages.</p></p>
+            
+
+            <pre><code>$ curl -X POST https://api.buildnumber.io/com.example.myapp/1.0/builds \
+    --user <span class="api-key">API_TOKEN</span>:</code>
+    <code>{"buildNumber": 1}</code></pre>
+            
         </div>
 
         <div id="footer">

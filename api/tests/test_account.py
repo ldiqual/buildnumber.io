@@ -6,7 +6,7 @@ from rest_framework import status
 
 from api.models import *
 
-class BuildTests(APITestCase):
+class AccountTests(APITestCase):
 
     def setUp(self):
         self.client = APIClient()

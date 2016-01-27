@@ -46,5 +46,14 @@
         "response": {
             "buildNumber": 43
         }
+    }, {
+        "title": "Get a unique build number for a specific package version",
+        "details": "Instead of generating a new build number that is unique for all builds, you can request a build number for a specific package version. For instance, you can request a build number for v1.0 of your package as follows.\n\nAll the previous examples are valid with this pattern, you can create a build, get a specific build, get the last build, add extra parameters, just like you would do without a version. Both patterns can also be used altogether: you can request a build number specific to a version *and* you can request a build number that is unique to non-versionned packages.",
+        "method": "POST",
+        "path": "/com.example.myapp/1.0/builds",
+        "auth": true,
+        "response": {
+            "buildNumber": 1
+        }  
     }]
 }
